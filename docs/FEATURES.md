@@ -825,7 +825,7 @@ follows the system's language) and a `reading` block
 | `page_animation` | `true` | the page turns by the corner on its own (arrows and buttons); dragging a corner turns it by hand either way |
 | `reduce_motion` | `false` | turns animations off (the system setting is honoured too) |
 | `advance` | `"pages"` | `pages`: two-page spread; `scroll`: continuous scrolling |
-| `highlight_color` | `"amarelo"` | the default highlight colour |
+| `highlight_color` | `"yellow"` | the default highlight colour (`yellow`, `green`, `coral`, `blue`) |
 | `save_to_notebook` | `true` | the highlight goes into the notebook |
 | `card_on_highlight` | `false` | highlighting also creates a card |
 | `explain_on_highlight` | `false` | highlighting asks for the explanation right away |
