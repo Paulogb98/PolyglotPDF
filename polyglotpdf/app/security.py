@@ -34,10 +34,10 @@ _HEADERS = [
 ]
 _LOCKED = """<!doctype html><html><meta charset="utf-8">
 <title>PolyglotPDF</title><body style="font-family:system-ui;max-width:36rem;margin:15vh auto">
-<h1>PolyglotPDF</h1><p>Abra o endereço completo exibido ao iniciar o aplicativo
-(ele contém <code>?token=...</code>). O token protege a sua biblioteca e as suas chaves de API.</p>
-<p><em>Open the full address shown when the app starts (it contains <code>?token=...</code>).
-The token protects your library and your API keys.</em></p>
+<h1>PolyglotPDF</h1><p>Open the full address shown when the app starts (it contains
+<code>?token=...</code>). The token protects your library and your API keys.</p>
+<p><em>Abra o endereço completo exibido ao iniciar o aplicativo (ele contém
+<code>?token=...</code>). O token protege a sua biblioteca e as suas chaves de API.</em></p>
 </body></html>"""
 
 
