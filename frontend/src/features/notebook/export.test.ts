@@ -8,7 +8,7 @@ function mark(changes: Partial<Mark> = {}): Mark {
     document_id: "d1",
     version_id: null,
     kind: "highlight",
-    color: "amarelo",
+    color: "yellow",
     quote: "o começo é ele mesmo um resultado",
     note: null,
     tags: [],

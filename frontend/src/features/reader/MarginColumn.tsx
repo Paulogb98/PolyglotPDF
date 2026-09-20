@@ -133,12 +133,12 @@ export function NoteEditor({
   const [note, setNote] = useState(mark?.note ?? "");
   const [tags, setTags] = useState<string[]>(mark?.tags ?? []);
   const [draft, setDraft] = useState("");
-  const [color, setColor] = useState<HighlightColor>(mark?.color ?? "amarelo");
+  const [color, setColor] = useState<HighlightColor>(mark?.color ?? "yellow");
 
   useEffect(() => {
     setNote(mark?.note ?? "");
     setTags(mark?.tags ?? []);
-    setColor(mark?.color ?? "amarelo");
+    setColor(mark?.color ?? "yellow");
   }, [mark]);
 
   const addTag = () => {

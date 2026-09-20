@@ -189,10 +189,10 @@ export const en: Messages = {
   "translate.background": "It carries on in the background; you can keep reading the original.",
   "translate.go": "Translate",
   // colors
-  "color.amarelo": "yellow",
-  "color.verde": "green",
+  "color.yellow": "yellow",
+  "color.green": "green",
   "color.coral": "coral",
-  "color.azul": "blue",
+  "color.blue": "blue",
   // companion actions
   "action.ask": "Ask",
   "action.explain": "Explain",

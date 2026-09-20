@@ -64,7 +64,7 @@ export function SessionOpening({
             <button type="button" className="btn btn-sm btn-outline" onClick={onRetry}>
               {t("opening.retry")}
             </button>
-            <a className="btn btn-sm btn-quiet" href={paths.settings("ia")}>
+            <a className="btn btn-sm btn-quiet" href={paths.settings("ai")}>
               {t("opening.checkKey")}
             </a>
           </div>

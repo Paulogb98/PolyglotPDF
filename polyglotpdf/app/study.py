@@ -26,10 +26,10 @@ from .library import NotFound
 
 #: Highlight colours of the interface, with the ink used for the underline.
 COLORS: dict[str, tuple[str, str]] = {
-    "amarelo": ("#e8c35a", "rgb(168 128 24 / .6)"),
-    "verde": ("#a9c07b", "rgb(106 130 66 / .6)"),
+    "yellow": ("#e8c35a", "rgb(168 128 24 / .6)"),
+    "green": ("#a9c07b", "rgb(106 130 66 / .6)"),
     "coral": ("#e0937a", "rgb(178 98 45 / .6)"),
-    "azul": ("#9db6c4", "rgb(93 130 150 / .6)"),
+    "blue": ("#9db6c4", "rgb(93 130 150 / .6)"),
 }
 
 #: ``grade -> (interval multiplier, ease change)``; "again" restarts the card.

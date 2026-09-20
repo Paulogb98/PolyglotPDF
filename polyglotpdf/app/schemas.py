@@ -63,7 +63,7 @@ class AskRequest(_Body):
 class MarkIn(_Body):
     version_id: str | None = None
     kind: str = "highlight"
-    color: str = "amarelo"
+    color: str = "yellow"
     quote: str = Field(max_length=8000)
     note: str | None = Field(default=None, max_length=8000)
     tags: list[str] = Field(default_factory=list, max_length=12)

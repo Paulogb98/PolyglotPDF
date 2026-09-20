@@ -57,7 +57,7 @@ export function WelcomeView({ emptyLibrary = false }: { emptyLibrary?: boolean }
           </div>
           <p className="welcome-foot">
             {t("welcome.foot")}{" "}
-            <a className="btn-link" href={paths.settings("ia")}>
+            <a className="btn-link" href={paths.settings("ai")}>
               {t("welcome.setUpNow")}
             </a>
             {emptyLibrary ? null : (

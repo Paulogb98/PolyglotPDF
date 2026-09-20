@@ -32,7 +32,9 @@ from .languages import google_code
 log = logging.getLogger(__name__)
 
 HTML_URL = "https://translate-pa.googleapis.com/v1/translateHtml"
-#: Public key embedded in Google's website translator widget (``te_lib``), not a secret.
+#: Google's own key, published inside the script its website translator widget loads
+#: (``el_main``); it belongs to nobody here and there is nothing to revoke. GitHub secret
+#: scanning matches the ``AIza...`` shape and flags it anyway: dismiss that alert.
 HTML_KEY = "AIzaSyATBXajvzQLTDHEQbcpq0Ihe0vWDHmO520"
 DICT_URL = "https://clients5.google.com/translate_a/t"
 _USER_AGENT = (

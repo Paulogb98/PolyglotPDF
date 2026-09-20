@@ -226,7 +226,7 @@ export interface CheckResult {
 }
 
 // ---------------------------------------------------------------- study
-export type HighlightColor = "amarelo" | "verde" | "coral" | "azul";
+export type HighlightColor = "yellow" | "green" | "coral" | "blue";
 
 export interface HighlightInk {
   name: HighlightColor;
@@ -405,7 +405,7 @@ export interface TutorSession {
 }
 
 export type OpenMode = "tutor" | "read";
-export type ReaderLayout = "traducao" | "original" | "lado";
+export type ReaderLayout = "translation" | "original" | "side";
 
 export interface DocSettings {
   open_mode: OpenMode | null;

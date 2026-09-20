@@ -190,10 +190,10 @@ export const pt = {
   "translate.background": "Continua em segundo plano; você pode seguir lendo o original.",
   "translate.go": "Traduzir",
   // colors
-  "color.amarelo": "amarelo",
-  "color.verde": "verde",
+  "color.yellow": "amarelo",
+  "color.green": "verde",
   "color.coral": "coral",
-  "color.azul": "azul",
+  "color.blue": "azul",
   // companion actions
   "action.ask": "Perguntar",
   "action.explain": "Explicar",

@@ -19,7 +19,10 @@ PAPERS = ("cream", "white", "sepia", "night")
 COLUMN_WIDTHS = ("narrow", "book", "wide")
 ADVANCE_MODES = ("pages", "scroll")
 OPEN_MODES = ("ask", "tutor", "read", "remember")
-HIGHLIGHT_COLORS = ("amarelo", "verde", "coral", "azul")
+HIGHLIGHT_COLORS = ("yellow", "green", "coral", "blue")
+#: Values written before the project moved to English (2026-09), still found in
+#: preferences files saved back then.
+LEGACY_COLORS = {"amarelo": "yellow", "verde": "green", "azul": "blue"}
 #: "auto" follows the system's language (the interface resolves it).
 INTERFACE_LANGUAGES = ("auto", "pt-BR", "en")
 
@@ -40,7 +43,7 @@ class ReadingPrefs:
     page_animation: bool = True
     reduce_motion: bool = False
     advance: str = "pages"
-    highlight_color: str = "amarelo"
+    highlight_color: str = "yellow"
     save_to_notebook: bool = True
     card_on_highlight: bool = False
     explain_on_highlight: bool = False
@@ -54,6 +57,7 @@ class ReadingPrefs:
         _one_of("paper", self.paper, PAPERS)
         _one_of("advance", self.advance, ADVANCE_MODES)
         _one_of("open_mode", self.open_mode, OPEN_MODES)
+        self.highlight_color = LEGACY_COLORS.get(self.highlight_color, self.highlight_color)
         _one_of("highlight_color", self.highlight_color, HIGHLIGHT_COLORS)
         return self
 

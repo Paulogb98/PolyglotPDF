@@ -24,10 +24,10 @@ import { usePreferences } from "./PreferencesContext";
 import { lang, resolveLang, t, type Key, type LangSetting } from "../../i18n";
 
 const NAV: { value: SettingsTab; label: Key; icon: ReactNode }[] = [
-  { value: "leitura", label: "settings.nav.reading", icon: <BookOpen size={17} /> },
-  { value: "ia", label: "settings.nav.ai", icon: <Sparkles size={17} /> },
-  { value: "traducao", label: "settings.nav.translation", icon: <Languages size={17} /> },
-  { value: "dados", label: "settings.nav.data", icon: <Database size={17} /> },
+  { value: "reading", label: "settings.nav.reading", icon: <BookOpen size={17} /> },
+  { value: "ai", label: "settings.nav.ai", icon: <Sparkles size={17} /> },
+  { value: "translation", label: "settings.nav.translation", icon: <Languages size={17} /> },
+  { value: "data", label: "settings.nav.data", icon: <Database size={17} /> },
 ];
 
 const PAPERS: { value: ReadingPrefs["paper"]; label: Key; color: string }[] = [
@@ -99,8 +99,8 @@ export function SettingsView({ tab }: { tab: SettingsTab }) {
         </nav>
 
         <main className="settings-main">
-          {tab === "leitura" ? <ReadingTab /> : null}
-          {tab === "ia" ? (
+          {tab === "reading" ? <ReadingTab /> : null}
+          {tab === "ai" ? (
             <AiTab
               engines={engines}
               companionEngine={companionEngine}
@@ -108,8 +108,8 @@ export function SettingsView({ tab }: { tab: SettingsTab }) {
               onChanged={loadEngines}
             />
           ) : null}
-          {tab === "traducao" ? <TranslationTab engines={engines} languages={languages} /> : null}
-          {tab === "dados" ? <DataTab info={info} /> : null}
+          {tab === "translation" ? <TranslationTab engines={engines} languages={languages} /> : null}
+          {tab === "data" ? <DataTab info={info} /> : null}
         </main>
       </div>
     </div>

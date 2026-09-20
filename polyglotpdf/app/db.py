@@ -76,7 +76,7 @@ MIGRATIONS: tuple[str, ...] = (
         document_id TEXT NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
         version_id TEXT,
         kind TEXT NOT NULL CHECK (kind IN ('highlight', 'note')),
-        color TEXT NOT NULL DEFAULT 'amarelo',
+        color TEXT NOT NULL DEFAULT 'yellow',
         quote TEXT NOT NULL,
         note TEXT,
         tags TEXT NOT NULL DEFAULT '[]',
@@ -146,8 +146,17 @@ MIGRATIONS: tuple[str, ...] = (
     """,
     """
     -- A highlight can stay on the page without entering the notebook
-    -- ("Ao grifar · guardar no caderno" in the reading settings).
+    -- ("When highlighting · keep in the notebook" in the reading settings).
     ALTER TABLE marks ADD COLUMN in_notebook INTEGER NOT NULL DEFAULT 1;
+    """,
+    """
+    -- English became the project's language: the values stored for highlight colours
+    -- and for the reader's layout were Portuguese until then ("coral" did not change).
+    UPDATE marks SET color = 'yellow' WHERE color = 'amarelo';
+    UPDATE marks SET color = 'green' WHERE color = 'verde';
+    UPDATE marks SET color = 'blue' WHERE color = 'azul';
+    UPDATE doc_settings SET layout = 'translation' WHERE layout = 'traducao';
+    UPDATE doc_settings SET layout = 'side' WHERE layout = 'lado';
     """,
 )
 

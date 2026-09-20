@@ -418,7 +418,7 @@ export function DictionaryPanel({
             <span className="small muted">
               {t("dict.needsAiBody", { n: result.uses })}
             </span>
-            <a className="btn btn-outline btn-sm" style={{ alignSelf: "flex-start" }} href={paths.settings("ia")}>
+            <a className="btn btn-outline btn-sm" style={{ alignSelf: "flex-start" }} href={paths.settings("ai")}>
               {t("dict.toSettings")}
             </a>
           </div>

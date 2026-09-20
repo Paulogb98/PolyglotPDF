@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-export type SettingsTab = "leitura" | "ia" | "traducao" | "dados";
+export type SettingsTab = "reading" | "ai" | "translation" | "data";
 
 export type Route =
   | { name: "welcome"; empty: boolean }
@@ -16,7 +16,7 @@ export type Route =
       mode: "tutor" | "read" | null;
     };
 
-const TABS: SettingsTab[] = ["leitura", "ia", "traducao", "dados"];
+const TABS: SettingsTab[] = ["reading", "ai", "translation", "data"];
 
 /** "#/read/<id>?v=<version>&p=<page>" and friends. */
 export function parseHash(hash: string): Route {
@@ -43,7 +43,7 @@ export function parseHash(hash: string): Route {
   }
   if (parts[0] === "settings") {
     const tab = params.get("tab") as SettingsTab | null;
-    return { name: "settings", tab: tab && TABS.includes(tab) ? tab : "ia" };
+    return { name: "settings", tab: tab && TABS.includes(tab) ? tab : "ai" };
   }
   if (parts[0] === "welcome") return { name: "welcome", empty: params.get("empty") === "1" };
   return { name: "library" };
@@ -53,7 +53,7 @@ export const paths = {
   /** ``empty``: the reader asked for the library and it has no books yet. */
   welcome: (empty = false) => (empty ? "#/welcome?empty=1" : "#/welcome"),
   library: () => "#/",
-  settings: (tab: SettingsTab = "ia") => (tab === "ia" ? "#/settings" : `#/settings?tab=${tab}`),
+  settings: (tab: SettingsTab = "ai") => (tab === "ai" ? "#/settings" : `#/settings?tab=${tab}`),
   notebook: (id: string) => `#/notebook/${encodeURIComponent(id)}`,
   review: (id: string) => `#/review/${encodeURIComponent(id)}`,
   reader: (

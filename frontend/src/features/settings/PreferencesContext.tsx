@@ -20,7 +20,7 @@ export const DEFAULT_READING: ReadingPrefs = {
   page_animation: true,
   reduce_motion: false,
   advance: "pages",
-  highlight_color: "amarelo",
+  highlight_color: "yellow",
   save_to_notebook: true,
   card_on_highlight: false,
   explain_on_highlight: false,
@@ -30,10 +30,10 @@ export const DEFAULT_READING: ReadingPrefs = {
 };
 
 export const DEFAULT_COLORS: HighlightInk[] = [
-  { name: "amarelo", ink: "#e8c35a", line: "rgb(168 128 24 / .6)" },
-  { name: "verde", ink: "#a9c07b", line: "rgb(106 130 66 / .6)" },
+  { name: "yellow", ink: "#e8c35a", line: "rgb(168 128 24 / .6)" },
+  { name: "green", ink: "#a9c07b", line: "rgb(106 130 66 / .6)" },
   { name: "coral", ink: "#e0937a", line: "rgb(178 98 45 / .6)" },
-  { name: "azul", ink: "#9db6c4", line: "rgb(93 130 150 / .6)" },
+  { name: "blue", ink: "#9db6c4", line: "rgb(93 130 150 / .6)" },
 ];
 
 interface PreferencesValue {

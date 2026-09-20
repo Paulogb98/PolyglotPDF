@@ -16,6 +16,8 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
+from polyglotpdf.app.db import MIGRATIONS, Database
+from polyglotpdf.app.preferences import Preferences
 from polyglotpdf.app.secrets import MemoryStore
 from polyglotpdf.app.server import create_app
 from polyglotpdf.app.sessions import MAX_PAGES, build_ranges
@@ -43,7 +45,7 @@ def document(client: TestClient, sample_pdf: Path) -> dict[str, Any]:
 def make_mark(client: TestClient, document_id: str, **changes: Any) -> dict[str, Any]:
     body: dict[str, Any] = {
         "kind": "highlight",
-        "color": "amarelo",
+        "color": "yellow",
         "quote": "the parameter controls the growth",
         "start": {"page": 0, "offset": 60},
         "end": {"page": 0, "offset": 90},
@@ -215,9 +217,9 @@ def test_document_settings_remember_how_the_book_opens(
     client: TestClient, document: dict[str, Any]
 ) -> None:
     saved = client.put(
-        f"/api/documents/{document['id']}/settings", json={"open_mode": "tutor", "layout": "lado"}
+        f"/api/documents/{document['id']}/settings", json={"open_mode": "tutor", "layout": "side"}
     ).json()
-    assert saved["open_mode"] == "tutor" and saved["layout"] == "lado"
+    assert saved["open_mode"] == "tutor" and saved["layout"] == "side"
     assert client.get(f"/api/documents/{document['id']}/settings").json()["open_mode"] == "tutor"
 
 
@@ -340,3 +342,34 @@ def test_a_stored_key_is_shown_only_by_its_last_characters(client: TestClient) -
     )
     assert engine["key_hint"] == "••••4f2a"
     assert "abcdefgh" not in str(engine)
+
+
+# ---------------------------------------------------------------------- migrations
+def test_portuguese_values_saved_before_the_rename_are_migrated(tmp_path: Path) -> None:
+    """A library written while the stored values were still Portuguese keeps working."""
+    path = tmp_path / "library.sqlite3"
+    database = Database(path)
+    database.execute(
+        "INSERT INTO documents (id, title, filename, format, pages, size, sha256, added_at)"
+        " VALUES ('d1', 'Book', 'book.pdf', 'pdf', 1, 1, 'sha256', '2026-01-01T00:00:00+00:00')"
+    )
+    database.execute(
+        "INSERT INTO marks (id, document_id, kind, color, quote, start_page, start_offset,"
+        " end_page, end_offset, created_at, updated_at) VALUES ('m1', 'd1', 'highlight',"
+        " 'amarelo', 'a passage', 0, 0, 0, 9, '2026-01-01', '2026-01-01')"
+    )
+    database.execute("INSERT INTO doc_settings (document_id, layout) VALUES ('d1', 'lado')")
+    # Rewind the schema so opening it again runs the renaming migration.
+    database.execute(f"PRAGMA user_version = {len(MIGRATIONS) - 1}")
+    database.close()
+
+    database = Database(path)
+    assert database.one("SELECT color FROM marks WHERE id = 'm1'")["color"] == "yellow"
+    assert database.one("SELECT layout FROM doc_settings")["layout"] == "side"
+    database.close()
+
+
+def test_a_preferences_file_with_the_old_colour_still_loads() -> None:
+    prefs = Preferences.from_dict({"reading": {"highlight_color": "amarelo"}})
+    assert prefs.reading.highlight_color == "yellow"
+    assert Preferences.from_dict({"reading": {"highlight_color": "coral"}}).reading.highlight_color

@@ -138,7 +138,7 @@ export function ReaderView({
   const initialPage = opening.page;
   const initialMode = opening.mode;
   const [versionId, setVersionId] = useState<string | null>(initialVersion);
-  const [readerLayout, setReaderLayout] = useState<ReaderLayout>(initialVersion ? "traducao" : "original");
+  const [readerLayout, setReaderLayout] = useState<ReaderLayout>(initialVersion ? "translation" : "original");
   const [mode, setMode] = useState<OpenMode>(initialMode ?? "read");
   const [page, setPage] = useState(initialPage ?? 0);
   const [panel, setPanel] = useState<Panel>(null);
@@ -209,7 +209,7 @@ export function ReaderView({
         setProgressOpen(0.34);
         const chosen = initialVersion ?? item.versions[0]?.id ?? null;
         setVersionId(chosen);
-        setReaderLayout(chosen ? "traducao" : "original");
+        setReaderLayout(chosen ? "translation" : "original");
         const [geometry, original] = await Promise.all([
           api.layout(id, chosen),
           chosen ? api.layout(id, null) : Promise.resolve(null),
@@ -285,7 +285,7 @@ export function ReaderView({
           label: t("common.open"),
           run: () => {
             setVersionId(job.version_id);
-            setReaderLayout("traducao");
+            setReaderLayout("translation");
           },
         },
       });
@@ -357,7 +357,7 @@ export function ReaderView({
   const pageSize = layout?.pages[Math.min(page, (layout?.pages.length ?? 1) - 1)] ?? [595, 842];
   const [pageWidth, pageHeight] = pageSize;
   const scrolling = reading.advance === "scroll";
-  const columns = scrolling && readerLayout !== "lado" ? 1 : 2;
+  const columns = scrolling && readerLayout !== "side" ? 1 : 2;
   const fit = useMemo(() => {
     if (!size.width || !size.height) return 0;
     const horizontal = (size.width - 8) / (pageWidth * columns + 14);
@@ -421,7 +421,7 @@ export function ReaderView({
 
   // ---------------------------------------------------------------- navigation
   const pageCount = layout?.page_count ?? document_?.pages ?? 1;
-  const step = columns === 1 || readerLayout === "lado" ? 1 : 2;
+  const step = columns === 1 || readerLayout === "side" ? 1 : 2;
 
   const chapters = useMemo(() => {
     const top = (layout?.toc ?? []).filter((entry) => entry.level === 1);
@@ -441,7 +441,7 @@ export function ReaderView({
   const goTo = useCallback(
     (target: number, direction?: "left" | "right") => {
       const clamped = Math.max(0, Math.min(pageCount - 1, target));
-      if (direction && readerLayout === "lado" && reading.page_animation && !reading.reduce_motion) {
+      if (direction && readerLayout === "side" && reading.page_animation && !reading.reduce_motion) {
         // Side by side both leaves change at once: they settle in rather than turn.
         window.clearTimeout(settleTimer.current);
         setSettle(direction);
@@ -467,7 +467,7 @@ export function ReaderView({
   turnRef.current = turn;
   const pageNow = useRef(page);
   pageNow.current = page;
-  const curls = columns === 2 && readerLayout !== "lado" && !scrolling;
+  const curls = columns === 2 && readerLayout !== "side" && !scrolling;
 
   const finishTurn = useCallback(
     (done: Turn, turned: boolean) => {
@@ -540,7 +540,7 @@ export function ReaderView({
     if (!scale) return;
     const resolution = imageScale(scale);
     const shown =
-      readerLayout === "lado" ? [null, versionId] : [readerLayout === "original" ? null : versionId];
+      readerLayout === "side" ? [null, versionId] : [readerLayout === "original" ? null : versionId];
     const timer = window.setTimeout(() => {
       for (let offset = -2 * step; offset <= 3 * step; offset += 1) {
         const target = page + offset;
@@ -857,9 +857,9 @@ export function ReaderView({
       );
     }
     const leafVersion =
-      readerLayout === "original" ? null : readerLayout === "lado" && side === "left" ? null : versionId;
+      readerLayout === "original" ? null : readerLayout === "side" && side === "left" ? null : versionId;
     const head =
-      readerLayout === "lado" ? (
+      readerLayout === "side" ? (
         side === "left" ? (
           <>
             <span>{label(target)}</span>
@@ -951,8 +951,8 @@ export function ReaderView({
     ) : (
       <div className="book pair" key={at}>
         {leaf("left", at, false)}
-        <div className={`gutter ${readerLayout === "lado" ? "linked" : ""}`} />
-        {leaf("right", readerLayout === "lado" ? at : at + 1, false)}
+        <div className={`gutter ${readerLayout === "side" ? "linked" : ""}`} />
+        {leaf("right", readerLayout === "side" ? at : at + 1, false)}
         {corners(at)}
       </div>
     );
@@ -988,7 +988,7 @@ export function ReaderView({
   // The pill floats above the session card, whatever height the card takes.
   const lift = showSession && sessionHeight ? sessionHeight + 22 + 14 : 0;
   const where =
-    columns === 1 || readerLayout === "lado"
+    columns === 1 || readerLayout === "side"
       ? label(page)
       : `${label(page)} – ${label(Math.min(page + 1, pageCount - 1))}`;
 
@@ -1065,8 +1065,8 @@ export function ReaderView({
                 onChange={setReaderLayout}
                 options={[
                   { value: "original", label: t("reader.original") },
-                  { value: "traducao", label: t("reader.layout.translation") },
-                  { value: "lado", label: t("reader.layout.sideBySide") },
+                  { value: "translation", label: t("reader.layout.translation") },
+                  { value: "side", label: t("reader.layout.sideBySide") },
                 ]}
               />
             ) : null}
@@ -1213,7 +1213,7 @@ export function ReaderView({
             <ChevronRight size={19} strokeWidth={2.5} />
           </button>
           <span className="sep" />
-          {readerLayout === "lado" && !pillAside ? (
+          {readerLayout === "side" && !pillAside ? (
             <span className="sync">
               <Link2 size={13} />
               {t("reader.aligned")}

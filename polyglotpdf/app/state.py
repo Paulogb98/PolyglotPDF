@@ -318,7 +318,7 @@ class AppState:
                 document_id,
                 version_id=version_id,
                 kind="note",
-                color="verde",
+                color="green",
                 quote=quote,
                 note=str(entry.get("why") or entry.get("explain") or "").strip() or None,
                 tags=[],

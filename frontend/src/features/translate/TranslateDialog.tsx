@@ -267,7 +267,7 @@ export function TranslateDialog({
           <span className="small spacer">
             {t("translate.needsKey", { engine: chosen.label })}
           </span>
-          <button type="button" className="btn btn-sm btn-outline" onClick={() => navigate(paths.settings("ia"))}>
+          <button type="button" className="btn btn-sm btn-outline" onClick={() => navigate(paths.settings("ai"))}>
             {t("translate.addKey")}
           </button>
         </div>
