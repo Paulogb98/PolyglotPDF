@@ -328,7 +328,7 @@ frontend/src/       React + TypeScript interface (Vite)
 ├── components/     Toasts and the shared pieces (ui.tsx)
 └── features/       library, reader, notebook, review, settings, translate, jobs
 docs/FEATURES.md    features and APIs (Python and HTTP)
-docs/screenshots/   the screenshots used in this README
+docs/screenshots/   the image used in this README
 installer/          polyglotpdf.iss (Inno Setup: the Windows installer)
 scripts/            dev_app.py, build_desktop.py (executable), build_installer.py (installer),
                     smoke_desktop.py, make_icon.py
