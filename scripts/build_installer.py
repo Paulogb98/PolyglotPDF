@@ -31,8 +31,12 @@ DIST = ROOT / "dist"
 APP_DIR = DIST / "PolyglotPDF"
 SCRIPT = ROOT / "installer" / "polyglotpdf.iss"
 
-#: Where Inno Setup lands with winget or with its own installer.
+#: Where Inno Setup lands: winget installs it per user, its own installer system-wide.
 ISCC_GUESSES = (
+    Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData" / "Local"))
+    / "Programs"
+    / "Inno Setup 6"
+    / "ISCC.exe",
     Path(os.environ.get("PROGRAMFILES(X86)", r"C:\Program Files (x86)"))
     / "Inno Setup 6"
     / "ISCC.exe",

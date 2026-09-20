@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-APP = ROOT / "polyglotpdf" / "app"
+APP = ROOT / "src" / "polyglotpdf" / "app"
 BUILD = ROOT / "build" / "desktop"
 DIST = ROOT / "dist"
 NAME = "PolyglotPDF"

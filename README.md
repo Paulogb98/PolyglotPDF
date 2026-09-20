@@ -3,7 +3,7 @@
 <br>
 
 <p align="center">
-  <img src="./polyglotpdf/app/assets/icon.png" width="120" alt="PolyglotPDF">
+  <img src="./src/polyglotpdf/app/assets/icon.png" width="120" alt="PolyglotPDF">
 </p>
 
 <br>
@@ -96,7 +96,7 @@ polyglotpdf translate paper.pdf      # command-line translation → paper.pt-BR.
 ```bash
 uv sync --extra app                  # core + desktop app (a native window through pywebview)
 npm --prefix frontend install
-npm --prefix frontend run build      # builds the interface into polyglotpdf/app/static
+npm --prefix frontend run build      # builds the interface into src/polyglotpdf/app/static
 ```
 
 Without `uv`: `pip install -e ".[app]"`. Command line only: `uv sync` (no extras, no Node).
@@ -307,7 +307,7 @@ neighbouring text for the companion (`companion/`).
 ### Folder structure
 
 ```
-polyglotpdf/
+src/polyglotpdf/          the Python package (src layout)
 ├── api.py, cli.py, pipeline.py, config.py, model.py, errors.py, progress.py
 ├── pdf/            loader, extractor, content_filter (glyph removal), snippets (formulas)
 ├── analysis/       fonts, math_detect, document, structure, classifier, flow
@@ -422,7 +422,7 @@ git push origin feature/YourFeature
 English is the project's language: the code, the comments, the docstrings, the documentation and
 the command-line messages. The app's interface is bilingual — every text on screen is a key in
 `frontend/src/i18n/pt.ts` and `en.ts` (both files must have the same keys), and what the server
-writes for people lives in `polyglotpdf/app/i18n.py`.
+writes for people lives in `src/polyglotpdf/app/i18n.py`.
 
 <br>
 

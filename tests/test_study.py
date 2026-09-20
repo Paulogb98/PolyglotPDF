@@ -17,7 +17,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from polyglotpdf.app.db import MIGRATIONS, Database
-from polyglotpdf.app.preferences import Preferences
+from polyglotpdf.app.preferences import Preferences, PreferencesStore
 from polyglotpdf.app.secrets import MemoryStore
 from polyglotpdf.app.server import create_app
 from polyglotpdf.app.sessions import MAX_PAGES, build_ranges
@@ -373,3 +373,12 @@ def test_a_preferences_file_with_the_old_colour_still_loads() -> None:
     prefs = Preferences.from_dict({"reading": {"highlight_color": "amarelo"}})
     assert prefs.reading.highlight_color == "yellow"
     assert Preferences.from_dict({"reading": {"highlight_color": "coral"}}).reading.highlight_color
+
+
+def test_a_preferences_file_with_the_old_colour_is_written_back(tmp_path: Path) -> None:
+    path = tmp_path / "preferences.json"
+    path.write_text(json.dumps({"reading": {"highlight_color": "verde"}}), encoding="utf-8")
+    store = PreferencesStore(path)
+    assert store.get().reading.highlight_color == "green"
+    # The file itself was renamed, not only what the app holds in memory.
+    assert json.loads(path.read_text(encoding="utf-8"))["reading"]["highlight_color"] == "green"

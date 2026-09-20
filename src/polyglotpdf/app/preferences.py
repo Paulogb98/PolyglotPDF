@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import threading
 from collections.abc import Mapping
+from contextlib import suppress
 from dataclasses import asdict, dataclass, field, fields, replace
 from pathlib import Path
 from typing import Any
@@ -168,13 +169,20 @@ class PreferencesStore:
     def _load(self) -> Preferences:
         try:
             data = json.loads(self.path.read_text(encoding="utf-8"))
-            return Preferences.from_dict(data)
+            prefs = Preferences.from_dict(data)
         except FileNotFoundError:
             return Preferences()
         except (json.JSONDecodeError, ConfigError, TypeError) as exc:
             broken = self.path.with_suffix(".invalid.json")
             self.path.replace(broken)
             raise ConfigError(f"Invalid preferences file moved to {broken}: {exc}") from exc
+        if prefs.to_dict() != data:
+            # Reading renamed a value (see LEGACY_COLORS) or filled a missing one in: write
+            # the file back, so what is on disk is what the app is using. A folder that
+            # cannot be written to is not worth failing the start over.
+            with suppress(OSError):
+                self._save(prefs)
+        return prefs
 
     def _save(self, prefs: Preferences) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)

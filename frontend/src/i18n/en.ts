@@ -113,7 +113,7 @@ export const en: Messages = {
   "welcome.choose": "Choose files",
   "welcome.orDrag": "or drag them anywhere onto the window",
   "welcome.emptyLibrary":
-    "Your library is still empty — that is why it will not open and you land back here. Import a book and the shelf appears.",
+    "Your library is still empty. Import a book and the shelf appears.",
   "welcome.foot": "Free translation works right away. For the companion and the tutor, add an AI key later — or run a local model with Ollama.",
   "welcome.setUpNow": "Set it up now",
   "welcome.openLibrary": "Open the library",

@@ -5,7 +5,7 @@
 The opening quote is ink (the original), the closing one cream (the translation over
 the terracotta). Below 20 px the pair closes up, so the small sizes keep only the
 closing quote — the rule of the brand sheet. Writes the window/executable icon
-(``polyglotpdf/app/assets/icon.ico`` and ``icon.png``) and the favicon.
+(``src/polyglotpdf/app/assets/icon.ico`` and ``icon.png``) and the favicon.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 FONT = ROOT / "frontend" / "public" / "fonts" / "Caprasimo-400-latin.woff2"
-ASSETS = ROOT / "polyglotpdf" / "app" / "assets"
+ASSETS = ROOT / "src" / "polyglotpdf" / "app" / "assets"
 FAVICON = ROOT / "frontend" / "public" / "favicon.png"
 
 TERRACOTA = (198, 113, 57, 255)

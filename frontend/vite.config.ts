@@ -13,8 +13,8 @@ const backend = process.env.POLYGLOTPDF_APP_URL ?? "http://127.0.0.1:8765";
 export default defineConfig({
   plugins: [react()],
   build: {
-    // Served by the Python package (polyglotpdf/app/static).
-    outDir: fileURLToPath(new URL("../polyglotpdf/app/static", import.meta.url)),
+    // Served by the Python package (src/polyglotpdf/app/static).
+    outDir: fileURLToPath(new URL("../src/polyglotpdf/app/static", import.meta.url)),
     emptyOutDir: true,
     chunkSizeWarningLimit: 1600,
   },

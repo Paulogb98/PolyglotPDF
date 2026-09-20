@@ -670,7 +670,7 @@ and `EchoChat` (offline, returns the message it received). Provider failures bec
 `polyglotpdf app` (or `polyglotpdf-desktop`, with no console) starts an internal server (FastAPI,
 on a free port of `127.0.0.1`) holding the compiled interface and opens it in a native pywebview
 window (WebView2 on Windows, WebKit on macOS, GTK/Qt on Linux). The `app` extra; the interface
-lives in `frontend/` (React + TypeScript + Vite) and is built into `polyglotpdf/app/static`.
+lives in `frontend/` (React + TypeScript + Vite) and is built into `src/polyglotpdf/app/static`.
 `--headless` brings up the server only, for developing the interface;
 `scripts/build_desktop.py` freezes the executable with PyInstaller and
 `scripts/build_installer.py` wraps it into the Windows installer.

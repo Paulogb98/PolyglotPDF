@@ -114,7 +114,7 @@ export const pt = {
   "welcome.choose": "Escolher arquivos",
   "welcome.orDrag": "ou arraste para qualquer lugar da janela",
   "welcome.emptyLibrary":
-    "Sua biblioteca ainda está vazia — por isso ela não abre e você volta para cá. Importe um livro e a estante aparece.",
+    "Sua biblioteca ainda está vazia. Importe um livro e a estante aparece.",
   "welcome.foot": "A tradução gratuita já funciona. Para o companheiro e o tutor, cadastre uma chave de IA depois — ou rode um modelo local com o Ollama.",
   "welcome.setUpNow": "Configurar agora",
   "welcome.openLibrary": "Abrir a biblioteca",

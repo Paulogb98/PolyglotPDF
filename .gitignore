@@ -17,6 +17,9 @@ venv/
 .ruff_cache/
 .mypy_cache/
 
+# Reference paper used by a few tests (arXiv 1512.03385); they skip without it
+paper_test.pdf
+
 # Generated documents
 *.inspect.pdf
 *.dual.pdf
@@ -30,5 +33,5 @@ polyglotpdf.toml
 # Frontend dependencies and the compiled interface (npm --prefix frontend run build)
 frontend/node_modules/
 frontend/tsconfig.tsbuildinfo
-polyglotpdf/app/static/
+src/polyglotpdf/app/static/
 .devdata/
