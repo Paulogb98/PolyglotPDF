@@ -257,7 +257,7 @@ def build_parser() -> argparse.ArgumentParser:
     commands = parser.add_subparsers(dest="command", required=True)
 
     translate = commands.add_parser("translate", parents=[common], help="translate a document")
-    translate.add_argument("input", type=Path, help="PDF (ou EPUB/XPS/FB2/MOBI/CBZ)")
+    translate.add_argument("input", type=Path, help="PDF (or EPUB/XPS/FB2/MOBI/CBZ)")
     translate.add_argument(
         "-o", "--output", type=Path, help="output PDF (default: <name>.<language>.pdf)"
     )

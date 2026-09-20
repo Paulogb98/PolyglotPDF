@@ -11,6 +11,7 @@
 <p align="center">
   <a href="#-about"><strong>About</strong></a> •
   <a href="#-features"><strong>Features</strong></a> •
+  <a href="#%EF%B8%8F-requirements"><strong>Requirements</strong></a> •
   <a href="#-installation"><strong>Installation</strong></a> •
   <a href="#%EF%B8%8F-the-app"><strong>App</strong></a> •
   <a href="#%EF%B8%8F-command-line"><strong>Command line</strong></a> •
@@ -83,36 +84,124 @@ polyglotpdf translate paper.pdf      # command-line translation → paper.pt-BR.
 
 ## ⚙️ Requirements
 
-- **[Python 3.11+](https://www.python.org/)** — preferably with **[uv](https://docs.astral.sh/uv/)**
-- **[Node.js 20+](https://nodejs.org/)** — only to build the interface
-- **Windows**: the window uses WebView2, which ships with the system
+| What | For what | When |
+|---|---|---|
+| **[uv](https://docs.astral.sh/uv/)** | installs the dependencies and runs the commands | always — it fetches Python itself, so you do not have to install it |
+| **[Python 3.11+](https://www.python.org/)** | the core | only if you prefer `pip` to `uv` (see [Without uv](#without-uv)) |
+| **[Node.js 20+](https://nodejs.org/)** | building the interface (React + Vite) | to run the app from the source; the command line alone needs none |
+| **[Git](https://git-scm.com/)** | cloning the repository | |
+| **[Inno Setup 6](https://jrsoftware.org/isdl.php)** | packing the Windows installer | only to build the setup executable: `winget install --id JRSoftware.InnoSetup` |
+
+- **Windows**: the window uses **WebView2**, which ships with Windows 10 and 11; the installer
+  asks for 64-bit Windows 10 or newer.
+- **macOS and Linux**: the window is the system's own web view, through pywebview — see its
+  [installation notes](https://pywebview.flowrl.com/guide/installation.html) for what your system
+  needs.
 - An **API key** is optional — Google translation is free, and **Ollama** runs a local model with
-  no key
+  no key.
 
 <br>
 
 ## 🚀 Installation
 
+Two ways in: **install the app** (Windows — one setup executable, and nothing else has to be
+installed afterwards) or **run from the source** (any system, and the only way to get the command
+line).
+
+### 🪟 Install the app (Windows)
+
+No release has been published yet, so the setup executable is built from the source once. With
+**uv**, **Node.js** and **Inno Setup** in place:
+
 ```bash
-uv sync --extra app                  # core + desktop app (a native window through pywebview)
-npm --prefix frontend install
-npm --prefix frontend run build      # builds the interface into src/polyglotpdf/app/static
+git clone https://github.com/Paulogb98/PolyglotPDF.git
+cd PolyglotPDF
+uv sync --extra app                                     # the Python dependencies
+npm --prefix frontend install                           # the interface's dependencies
+uv run --extra app python scripts/build_installer.py    # builds everything (a few minutes)
 ```
 
-Without `uv`: `pip install -e ".[app]"`. Command line only: `uv sync` (no extras, no Node).
+Out comes a single file — **`dist/PolyglotPDF-<version>-Setup.exe`**, around 40 MB — and that is
+what you run, or hand to someone who has none of the above:
 
-**Windows installer.** `uv run python scripts/build_installer.py` freezes the app and wraps it in
-`dist/PolyglotPDF-<version>-Setup.exe` — a per-user install that needs no administrator, with a
-Start-menu shortcut, an optional desktop one and an uninstaller. It needs
-[Inno Setup](https://jrsoftware.org/isdl.php) (`winget install --id JRSoftware.InnoSetup`); see
-[Executable and installer](#executable-and-installer).
+- it installs **per user**, in `%LOCALAPPDATA%\Programs\PolyglotPDF`, with **no administrator**
+  (the dialog still offers "for everyone" if you have one);
+- the wizard speaks **Portuguese and English**, puts a shortcut in the Start menu and, if you tick
+  the box, one on the desktop;
+- a new version installs over the previous one and your library stays where it is;
+- **to uninstall**: Windows *Settings → Apps → PolyglotPDF*. The library and the preferences live
+  apart, in `%LOCALAPPDATA%\polyglotpdf\app` — delete that folder too if you want everything
+  gone.
+
+Then open **PolyglotPDF** from the Start menu. What gets installed is the window only: for the
+`polyglotpdf` command line, install from the source below.
+
+### 💻 Run from the source (Windows, macOS and Linux)
+
+```bash
+git clone https://github.com/Paulogb98/PolyglotPDF.git
+cd PolyglotPDF
+
+uv sync --extra app                  # 1. core + desktop app (creates .venv, fetches Python)
+npm --prefix frontend install        # 2. the interface's dependencies
+npm --prefix frontend run build      # 3. builds it into src/polyglotpdf/app/static
+
+uv run polyglotpdf app               # 4. opens the app window
+```
+
+Step 3 is not optional: the built interface is not versioned, so a fresh clone has none and the
+window opens on a page saying exactly that. Run it again after a `git pull` that touches
+`frontend/`.
+
+To see that everything landed:
+
+```bash
+uv run polyglotpdf --version         # polyglotpdf 1.0.0
+uv run polyglotpdf --help            # translate, inspect, estimate, engines, models, app
+```
+
+**Command line only** — no window, no Node.js, a far smaller install:
+
+```bash
+uv sync                              # no extras
+uv run polyglotpdf translate paper.pdf
+```
+
+> [!TIP]
+> `uv run` uses the project's `.venv` without your having to activate it, and keeps it in step with
+> `uv.lock`. To type `polyglotpdf ...` on its own instead, activate the environment once per
+> terminal: `.venv\Scripts\Activate.ps1` (PowerShell) or `source .venv/bin/activate` (macOS and
+> Linux).
+
+#### Without uv
+
+```bash
+python -m venv .venv
+.venv\Scripts\Activate.ps1           # macOS and Linux: source .venv/bin/activate
+pip install -e ".[app]"              # command line only: pip install -e .
+npm --prefix frontend install && npm --prefix frontend run build
+polyglotpdf app
+```
+
+### When something goes wrong
+
+| What you see | What it means |
+|---|---|
+| A page saying *the interface has not been built* | step 3 never ran: `npm --prefix frontend install && npm --prefix frontend run build` |
+| `The app needs the 'app' extra` | the environment was created without it: `uv sync --extra app` |
+| `polyglotpdf: command not found` | use `uv run polyglotpdf ...`, or activate the `.venv` first |
+| `npm not found` | Node.js 20+ is missing or not on the `PATH` (a new terminal is often enough) |
+| `ISCC (Inno Setup) not found` | only the installer needs it: `winget install --id JRSoftware.InnoSetup` |
+| A translation finishes with everything still in the original | Google limits use per connection: wait a few minutes, or use an AI engine with a key |
 
 <br>
 
 ## 🖥️ The app
 
+From the Start menu, when it is installed — or, from the project folder:
+
 ```bash
-polyglotpdf app                      # or polyglotpdf-desktop, which opens with no console window
+uv run polyglotpdf app               # or polyglotpdf-desktop, which opens with no console window
 ```
 
 It opens the app window with the library. The first time, a single screen asks for files;
@@ -150,6 +239,8 @@ first-run screen says so instead of silently bouncing you back.
   advance by pages or by scrolling, the default highlight colour and what happens when you
   highlight.
 
+Options of `polyglotpdf app`:
+
 | Option | Effect |
 |--------|--------|
 | `--data-dir FOLDER` | where the library and the preferences live |
@@ -178,6 +269,9 @@ first-run screen says so instead of silently bouncing you back.
 <br>
 
 ## ⌨️ Command line
+
+From the project folder, every line below is `uv run polyglotpdf ...`; with the `.venv` activated
+(or after a `pip install`), `polyglotpdf ...` on its own.
 
 ```bash
 # Brazilian Portuguese (the default) with Google Translate (the default)
@@ -260,6 +354,7 @@ the same paragraph joining to build the context of the selected passage.
 |--------|--------|
 | `-e/--engine`, `-m/--model`, `-k/--api-key`, `--base-url` | engine, model, key and endpoint |
 | `-t/--target`, `-s/--source` | languages (default `pt-BR` / `auto`) |
+| `-o/--output` | where to write it (default: `<name>.<language>.pdf`, beside the original) |
 | `-p/--pages 1-3,7` | translates only those pages (the output holds only them) |
 | `--temperature`, `--effort` | model settings (temperature: OpenAI and compatible; effort: Claude) |
 | `-g/--glossary` | TOML/JSON glossary (AI engines) |
@@ -267,10 +362,11 @@ the same paragraph joining to build the context of the selected passage.
 | `--min-scale 0.8` | how much the font may shrink before the leading is tightened |
 | `--no-hyphenation`, `--no-cache`, `--concurrency N` | fine tuning |
 | `--bilingual`, `--report file.json` | side-by-side output and a report |
-| `-c/--config file.toml` | full configuration (see `polyglotpdf.example.toml`) |
+| `-v/--verbose`, `-q/--quiet` | more detail (`-vv`: debug) or no progress bar |
+| `-c/--config file.toml` | full configuration (see [`polyglotpdf.example.toml`](polyglotpdf.example.toml)) |
 
 A `polyglotpdf.toml` in the current directory is loaded automatically; command-line options take
-precedence. Glossary: see `glossary.example.toml`.
+precedence. Glossary: see [`glossary.example.toml`](glossary.example.toml).
 
 <br>
 
@@ -365,9 +461,9 @@ shadows, motion and the single cover size) live in `frontend/src/styles/organic.
 ### Executable and installer
 
 ```bash
-uv run python scripts/build_desktop.py      # builds the interface and writes dist/PolyglotPDF/
-uv run python scripts/build_installer.py    # the above + dist/PolyglotPDF-<version>-Setup.exe
-uv run python scripts/smoke_desktop.py      # opens the real window and checks the interface
+uv run --extra app python scripts/build_desktop.py      # interface + dist/PolyglotPDF/
+uv run --extra app python scripts/build_installer.py    # the above + the Setup.exe in dist/
+uv run --extra app python scripts/smoke_desktop.py      # opens the real window and checks it
 ```
 
 `dist/PolyglotPDF/` is the folder to hand out (on Windows, with `PolyglotPDF.exe`);
