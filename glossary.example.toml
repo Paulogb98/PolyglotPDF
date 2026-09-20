@@ -1,0 +1,11 @@
+# Optional glossary (--glossary glossary.toml, or translation.glossary_path).
+# It is applied by the AI engines backed by language models (Claude, OpenAI, DeepSeek,
+# Gemini, Mistral, Grok, Qwen, OpenRouter, Ollama and compatible ones). Google and DeepL
+# do not receive it.
+# It can also be a .json file: {"terms": {"residual learning": "aprendizado residual"}}
+
+# Required translations (source term = translation).
+[terms]
+"residual learning" = "aprendizado residual"
+"shortcut connection" = "conexão de atalho"
+"degradation problem" = "problema de degradação"

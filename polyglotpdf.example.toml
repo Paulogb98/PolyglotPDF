@@ -1,0 +1,48 @@
+# Copy this file to "polyglotpdf.toml" (loaded automatically from the current directory)
+# or pass it with --config. Command-line options take precedence.
+# "polyglotpdf.toml" is in .gitignore because it may hold an API key.
+
+# pages = "1-10"
+
+[translation]
+# google (default, free, no key) | deepl | anthropic | openai | deepseek | gemini |
+# mistral | xai | qwen | openrouter | ollama | openai-compatible | pseudo | echo
+# "polyglotpdf engines" lists them all, with each one's API-key environment variable.
+engine = "google"
+source_lang = "auto"
+target_lang = "pt-BR"
+# model = "deepseek-v4-flash"     # empty: the engine's default model ("polyglotpdf models -e deepseek")
+# api_key = "..."                 # prefer the provider's environment variable (e.g. DEEPSEEK_API_KEY)
+# base_url = "http://localhost:8000/v1"   # your own server, or an OpenAI-compatible one
+# temperature = 0.2               # empty: the provider's default
+effort = "medium"                 # Claude only: low | medium | high | xhigh | max
+concurrency = 4                   # simultaneous requests (Google is always sequential)
+batch_max_items = 40
+batch_max_chars = 7000
+request_timeout = 600             # seconds
+max_retries = 4
+use_cache = true
+# cache_path = ".polyglotpdf-cache/translations.sqlite3"
+# glossary_path = "glossary.toml"
+
+[content]
+translate_code = false            # also translate code listings (monospaced)
+
+[layout]
+min_font_scale = 0.72             # preferred lower bound when shrinking the font
+hard_min_font_scale = 0.5         # absolute lower bound
+expand_into_free_space = true
+hyphenate = true
+
+[fonts]
+# Built-in fonts: tiro/tibo/tiit/tibi (Times), helv/hebo/heit/hebi (Helvetica),
+# cour/cobo/coit/cobi (Courier), cjk. Or paths to .ttf/.otf files:
+# serif = "C:/Windows/Fonts/times.ttf"
+# serif_bold = "C:/Windows/Fonts/timesbd.ttf"
+# serif_italic = "C:/Windows/Fonts/timesi.ttf"
+# serif_bold_italic = "C:/Windows/Fonts/timesbi.ttf"
+# fallback = "C:/Windows/Fonts/seguisym.ttf"
+
+[output]
+bilingual = false
+subset_fonts = true

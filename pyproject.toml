@@ -1,0 +1,93 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "polyglotpdf"
+version = "0.3.0"
+description = "Layout-preserving translation and AI-assisted reading of PDF papers and e-books, formulas included."
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["pdf", "translation", "latex", "papers", "ebooks", "reader", "llm"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Linguistic",
+    "Environment :: Console",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: MacOS X",
+    "Environment :: X11 Applications",
+]
+dependencies = [
+    # The glyph-level content filter relies on MuPDF's sanitize-filter callbacks,
+    # validated on the 1.28 series.
+    "pymupdf>=1.28,<2",
+    "anthropic>=1.5",
+    "pyphen>=0.16",
+    "rich>=13",
+    "openai>=3.13.0",
+    "deepl>=1.32.0",
+]
+
+[project.scripts]
+polyglotpdf = "polyglotpdf.cli:main"
+
+# The desktop application, without a console window on Windows.
+[project.gui-scripts]
+polyglotpdf-desktop = "polyglotpdf.app.desktop:main"
+
+[project.optional-dependencies]
+# The desktop reader: a native window (pywebview) over an in-process server that only
+# the window talks to. `PolyglotPDF` (or `polyglotpdf app`).
+app = [
+    "fastapi>=0.141.1",
+    "keyring>=25.7.0",
+    "python-multipart>=0.0.32",
+    "uvicorn>=0.52.4",
+    "pywebview>=5",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "pyinstaller>=6",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["polyglotpdf"]
+# The compiled interface (npm --prefix frontend run build) is not versioned.
+artifacts = ["polyglotpdf/app/static/**"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["frontend"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "C4", "PIE", "RET"]
+# Math symbols and typographic characters are part of the domain.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.format]
+# The examples in the docs are aligned by hand for reading.
+exclude = ["*.md"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["polyglotpdf"]
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+[[tool.mypy.overrides]]
+module = ["pymupdf", "pymupdf.*", "pyphen", "webview"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "network: tests that call external translation services (deselected by default)",
+]
